@@ -30,5 +30,23 @@ return [
         ],
     ],
 
+    'stock' => [
+        'title' => 'Stocks',
+
+        'actions' => [
+            'index' => 'Stocks',
+            'create' => 'New Stock',
+            'edit' => 'Edit :name',
+        ],
+
+        'columns' => [
+            'id' => 'ID',
+            'name' => 'Name',
+            'location' => 'Location',
+            'is_active' => 'Is active',
+            
+        ],
+    ],
+
     // Do not delete me :) I'm used for auto-generation
 ];

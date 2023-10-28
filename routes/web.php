@@ -43,3 +43,18 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
         Route::post('/password',                                    'ProfileController@updatePassword')->name('update-password');
     });
 });
+
+/* Auto-generated admin routes */
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->name('admin/')->group(static function() {
+        Route::prefix('stocks')->name('stocks/')->group(static function() {
+            Route::get('/',                                             'StocksController@index')->name('index');
+            Route::get('/create',                                       'StocksController@create')->name('create');
+            Route::post('/',                                            'StocksController@store')->name('store');
+            Route::get('/{stock}/edit',                                 'StocksController@edit')->name('edit');
+            Route::post('/bulk-destroy',                                'StocksController@bulkDestroy')->name('bulk-destroy');
+            Route::post('/{stock}',                                     'StocksController@update')->name('update');
+            Route::delete('/{stock}',                                   'StocksController@destroy')->name('destroy');
+        });
+    });
+});
