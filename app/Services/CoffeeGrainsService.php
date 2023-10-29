@@ -2,25 +2,25 @@
 
 namespace App\Services;
 
-use App\Repositories\CoffeeGrainsRepository;
+use App\Repositories\StocksRepository;
 
 class CoffeeGrainsService
 {
 
     /**
-     * @var CoffeeGrainsRepository
+     * @var StocksRepository
      */
-    protected $coffeeGrainsRepository;
+    protected $stocksRepository;
 
     /**
      * CoffeeGrainsService constructor.
      *
-     * @param CoffeeGrainsRepository $coffeeGrainsRepository
+     * @param StocksRepository $stocksRepository
      */
 
-    public function __construct(CoffeeGrainsRepository $coffeeGrainsRepository)
+    public function __construct(StocksRepository $stocksRepository)
     {
-        $this->coffeeGrainsRepository = $coffeeGrainsRepository;
+        $this->stocksRepository = $stocksRepository;
     }
 
 
@@ -31,7 +31,7 @@ class CoffeeGrainsService
      */
     public function getAllStockOptions()
     {
-        $stocks = $this->coffeeGrainsRepository->getAllStocks()->toArray();
+        $stocks = $this->stocksRepository->getAllStocks()->toArray();
         
         return $stocks;
     }

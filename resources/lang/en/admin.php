@@ -129,5 +129,26 @@ return [
         ],
     ],
 
+    'getting-blend' => [
+        'title' => 'Getting Blends',
+
+        'actions' => [
+            'index' => 'Getting Blends',
+            'create' => 'New Getting Blend',
+            'edit' => 'Edit :name',
+        ],
+
+        'columns' => [
+            'id' => 'ID',
+            'code' => 'Code',
+            'admin_user_id' => 'Admin user',
+            'stock_id' => 'Stock',
+            'blend_details_id' => 'Blend details',
+            'qtd' => 'Qtd',
+            'finished' => 'Finished',
+            
+        ],
+    ],
+
     // Do not delete me :) I'm used for auto-generation
 ];

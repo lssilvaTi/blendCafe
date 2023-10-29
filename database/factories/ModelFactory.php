@@ -98,3 +98,18 @@ $factory->define(App\Models\BlendDetail::class, static function (Faker\Generator
         
     ];
 });
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Models\GettingBlend::class, static function (Faker\Generator $faker) {
+    return [
+        'code' => $faker->sentence,
+        'admin_user_id' => $faker->randomNumber(5),
+        'stock_id' => $faker->sentence,
+        'blend_details_id' => $faker->sentence,
+        'qtd' => $faker->randomNumber(5),
+        'finished' => $faker->boolean(),
+        'created_at' => $faker->dateTime,
+        'updated_at' => $faker->dateTime,
+        
+        
+    ];
+});
