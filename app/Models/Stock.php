@@ -28,4 +28,9 @@ class Stock extends Model
     {
         return url('/admin/stocks/'.$this->getKey());
     }
+
+    public function coffeeGrains()
+    {
+        return $this->hasMany(CoffeeGrain::class, 'stock_id');
+    }
 }

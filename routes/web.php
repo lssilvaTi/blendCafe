@@ -58,3 +58,18 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
         });
     });
 });
+
+/* Auto-generated admin routes */
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->name('admin/')->group(static function() {
+        Route::prefix('coffee-grains')->name('coffee-grains/')->group(static function() {
+            Route::get('/',                                             'CoffeeGrainsController@index')->name('index');
+            Route::get('/create',                                       'CoffeeGrainsController@create')->name('create');
+            Route::post('/',                                            'CoffeeGrainsController@store')->name('store');
+            Route::get('/{coffeeGrain}/edit',                           'CoffeeGrainsController@edit')->name('edit');
+            Route::post('/bulk-destroy',                                'CoffeeGrainsController@bulkDestroy')->name('bulk-destroy');
+            Route::post('/{coffeeGrain}',                               'CoffeeGrainsController@update')->name('update');
+            Route::delete('/{coffeeGrain}',                             'CoffeeGrainsController@destroy')->name('destroy');
+        });
+    });
+});
