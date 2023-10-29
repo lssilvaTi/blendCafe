@@ -73,3 +73,18 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
         });
     });
 });
+
+/* Auto-generated admin routes */
+Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->group(static function () {
+    Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->name('admin/')->group(static function() {
+        Route::prefix('blend-details')->name('blend-details/')->group(static function() {
+            Route::get('/',                                             'BlendDetailsController@index')->name('index');
+            Route::get('/create',                                       'BlendDetailsController@create')->name('create');
+            Route::post('/',                                            'BlendDetailsController@store')->name('store');
+            Route::get('/{blendDetail}/edit',                           'BlendDetailsController@edit')->name('edit');
+            Route::post('/bulk-destroy',                                'BlendDetailsController@bulkDestroy')->name('bulk-destroy');
+            Route::post('/{blendDetail}',                               'BlendDetailsController@update')->name('update');
+            Route::delete('/{blendDetail}',                             'BlendDetailsController@destroy')->name('destroy');
+        });
+    });
+});

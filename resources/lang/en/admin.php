@@ -87,5 +87,47 @@ return [
         ],
     ],
 
+    'blend-detail' => [
+        'title' => 'Blend Details',
+
+        'actions' => [
+            'index' => 'Blend Details',
+            'create' => 'New Blend Detail',
+            'edit' => 'Edit :name',
+        ],
+
+        'columns' => [
+            'id' => 'ID',
+            'name' => 'Name',
+            'min_def' => 'Min def',
+            'max_def' => 'Max def',
+            'min_umid' => 'Min umid',
+            'max_umid' => 'Max umid',
+            'min_imp' => 'Min imp',
+            'max_imp' => 'Max imp',
+            'min_broca' => 'Min broca',
+            'max_broca' => 'Max broca',
+            'min_num18' => 'Min num18',
+            'max_num18' => 'Max num18',
+            'min_num17' => 'Min num17',
+            'max_num17' => 'Max num17',
+            'min_num16' => 'Min num16',
+            'max_num16' => 'Max num16',
+            'min_num15' => 'Min num15',
+            'max_num15' => 'Max num15',
+            'min_num14' => 'Min num14',
+            'max_num14' => 'Max num14',
+            'min_num13' => 'Min num13',
+            'max_num13' => 'Max num13',
+            'min_num12' => 'Min num12',
+            'max_num12' => 'Max num12',
+            'min_num10_11' => 'Min num10 11',
+            'max_num10_11' => 'Max num10 11',
+            'min_numfundo_b' => 'Min numfundo b',
+            'max_numfundo_b' => 'Max numfundo b',
+            
+        ],
+    ],
+
     // Do not delete me :) I'm used for auto-generation
 ];
