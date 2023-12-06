@@ -40,6 +40,12 @@ class CoffeeGrain extends Model
         'updated_at',
     
     ];
+
+    public function gettingBlends()
+    {
+        return $this->belongsToMany(GettingBlend::class, 'getting_blend_coffee_grain')
+                    ->withPivot('quantity');
+    }
     
     protected $appends = ['resource_url'];
 

@@ -97,6 +97,10 @@ Route::middleware(['auth:' . config('admin-auth.defaults.guard'), 'admin'])->gro
             Route::get('/create',                                       'GettingBlendsController@create')->name('create');
             Route::post('/',                                            'GettingBlendsController@store')->name('store');
             Route::get('/{gettingBlend}/edit',                          'GettingBlendsController@edit')->name('edit');
+            Route::get('/{gettingBlend}/show',                          'GettingBlendsController@show')->name('show');
+            Route::get('/{gettingBlend}/viewInfos',                     'GettingBlendsController@viewInfos')->name('viewInfos');
+            Route::get('/{gettingBlend}/showOptimeze',                  'GettingBlendsController@showOptimeze')->name('showOptimeze');
+            Route::post('/makeBlend',                                   'GettingBlendsController@makeBlend')->name('makeBlend');
             Route::post('/bulk-destroy',                                'GettingBlendsController@bulkDestroy')->name('bulk-destroy');
             Route::post('/{gettingBlend}',                              'GettingBlendsController@update')->name('update');
             Route::delete('/{gettingBlend}',                            'GettingBlendsController@destroy')->name('destroy');

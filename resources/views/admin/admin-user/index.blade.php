@@ -14,7 +14,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> {{ trans('admin.admin-user.actions.index') }}
+                        <i class="fa fa-align-justify"></i> Usuários
                         <a class="btn btn-primary btn-spinner btn-sm pull-right m-b-0" href="{{ url('admin/admin-users/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; {{ trans('admin.admin-user.actions.create') }}</a>
                     </div>
                     <div class="card-body" v-cloak>
@@ -43,21 +43,17 @@
                         <table class="table table-hover table-listing">
                             <thead>
                                 <tr>
-                                    <th is='sortable' :column="'id'">{{ trans('admin.admin-user.columns.id') }}</th>
-                                    <th is='sortable' :column="'first_name'">{{ trans('admin.admin-user.columns.first_name') }}</th>
-                                    <th is='sortable' :column="'last_name'">{{ trans('admin.admin-user.columns.last_name') }}</th>
-                                    <th is='sortable' :column="'email'">{{ trans('admin.admin-user.columns.email') }}</th>
-                                    <th is='sortable' :column="'activated'" v-if="activation">{{ trans('admin.admin-user.columns.activated') }}</th>
-                                    <th is='sortable' :column="'forbidden'">{{ trans('admin.admin-user.columns.forbidden') }}</th>
-                                    <th is='sortable' :column="'language'">{{ trans('admin.admin-user.columns.language') }}</th>
-                                    <th is='sortable' :column="'last_login_at'">{{ trans('admin.admin-user.columns.last_login_at') }}</th>
+                                    <th is='sortable' :column="'first_name'">Nome</th>
+                                    <th is='sortable' :column="'last_name'">Sobrenome</th>
+                                    <th is='sortable' :column="'email'">E-mail</th>
+                                    <th is='sortable' :column="'activated'" v-if="activation">Ativo</th>
+                                    <th is='sortable' :column="'last_login_at'">Último acesso</th>
                                     
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(item, index) in collection">
-                                    <td >@{{ item.id }}</td>
                                     <td >@{{ item.first_name }}</td>
                                     <td >@{{ item.last_name }}</td>
                                     <td >@{{ item.email }}</td>
@@ -67,13 +63,6 @@
                                             <span class="switch-slider"></span>
                                         </label>
                                     </td>
-                                    <td >
-                                        <label class="switch switch-3d switch-danger">
-                                            <input type="checkbox" class="switch-input" v-model="collection[index].forbidden" @change="toggleSwitch(item.resource_url, 'forbidden', collection[index])">
-                                            <span class="switch-slider"></span>
-                                        </label>
-                                    </td>
-                                    <td >@{{ item.language }}</td>
                                     <td >@{{ item.last_login_at | datetime }}</td>
                                     
                                     <td>

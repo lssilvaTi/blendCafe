@@ -22,14 +22,17 @@ use Illuminate\View\View;
 
 // Services
 use App\Services\CoffeeGrainsService;
+use App\Services\StocksService;
 
 class CoffeeGrainsController extends Controller
 {
     protected $coffeeGrainsService;
+    protected $stocksService;
 
-    public function __construct(CoffeeGrainsService $coffeeGrainsService)
+    public function __construct(CoffeeGrainsService $coffeeGrainsService, StocksService $stocksService)
     {
         $this->coffeeGrainsService = $coffeeGrainsService;
+        $this->stocksService = $stocksService;
     }
 
     /**
@@ -74,7 +77,7 @@ class CoffeeGrainsController extends Controller
     {
         $this->authorize('admin.coffee-grain.create');
 
-        $stockOptions = $this->coffeeGrainsService->getAllStockOptions();
+        $stockOptions = $this->stocksService->getAllStockOptions();
 
         $drinkOptions = $this->coffeeGrainsService->getDrinkOptions();
 
@@ -136,7 +139,7 @@ class CoffeeGrainsController extends Controller
     {
         $this->authorize('admin.coffee-grain.edit', $coffeeGrain);
 
-        $stockOptions = $this->coffeeGrainsService->getAllStockOptions();
+        $stockOptions = $this->stocksService->getAllStockOptions();
 
         $drinkOptions = $this->coffeeGrainsService->getDrinkOptions();
 

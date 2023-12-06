@@ -49,7 +49,7 @@ class StoreCoffeeGrain extends FormRequest
             'num12' => ['required', 'numeric'],
             'num10_11' => ['required', 'numeric'],
             'numfundo_b' => ['required', 'numeric'],
-            'stock_id' => ['required', 'string'],
+            'stock_id' => ['required', 'integer'],
             
         ];
     }

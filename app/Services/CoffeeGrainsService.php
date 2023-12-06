@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\StocksRepository;
+use App\Repositories\CoffeeGrainsRepository;
 
 class CoffeeGrainsService
 {
@@ -12,28 +13,29 @@ class CoffeeGrainsService
      */
     protected $stocksRepository;
 
+     /**
+     * @var CoffeeGrainsRepository
+     */
+    protected $coffeeGrainsRepository;
+
     /**
      * CoffeeGrainsService constructor.
      *
      * @param StocksRepository $stocksRepository
+     * @param CoffeeGrainsRepository $coffeeGrainsRepository
      */
 
-    public function __construct(StocksRepository $stocksRepository)
+    public function __construct(StocksRepository $stocksRepository, CoffeeGrainsRepository $coffeeGrainsRepository)
     {
         $this->stocksRepository = $stocksRepository;
+        $this->coffeeGrainsRepository = $coffeeGrainsRepository;
     }
 
-
-    /**
-     * Get all stocks options.
-     *
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    public function getAllStockOptions()
+    public function getAllCoffeeGrainsByStockId(int $stockId)
     {
-        $stocks = $this->stocksRepository->getAllStocks()->toArray();
+        $coffeeGrains = $this->coffeeGrainsRepository->getAllByStockId($stockId)->toArray();
         
-        return $stocks;
+        return $coffeeGrains;
     }
 
     public function getDrinkOptions()

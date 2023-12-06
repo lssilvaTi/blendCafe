@@ -28,3 +28,7 @@ Baixe os arquivos.
 - composer require --dev brackets/admin-generator
 - npm install
 - npm run craftable-dev
+
+
+# Comando para poder salvar normalmente arquivos criados dentro do docker
+- sudo chown -R $(whoami):$(whoami) /home/lucas/TCC/blend-cafe

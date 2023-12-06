@@ -13,7 +13,7 @@ class GettingBlend extends Model
         'blend_details_id',
         'qtd',
         'finished',
-    
+        'calculable_info',
     ];
     
     
@@ -21,6 +21,17 @@ class GettingBlend extends Model
         'created_at',
         'updated_at',
     
+    ];
+
+
+    public function coffeeGrains()
+    {
+        return $this->belongsToMany(CoffeeGrain::class, 'getting_blend_coffee_grain')
+                    ->withPivot('quantity');
+    }
+
+    protected $casts = [
+        'calculable_info' => 'array',
     ];
     
     protected $appends = ['resource_url'];

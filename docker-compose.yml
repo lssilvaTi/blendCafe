@@ -16,6 +16,8 @@ services:
       - DB_DATABASE=blend_cafe-db
       - DB_USERNAME=root
       - DB_PASSWORD=tcc86279
+    networks:
+      - blendcafe-network
 
   db:
     image: mysql:5.7.22
@@ -29,6 +31,12 @@ services:
       MYSQL_ROOT_PASSWORD: tcc86279
     volumes:
       - dbdata:/var/lib/mysql
+    networks:
+      - blendcafe-network
+
+networks:
+  blendcafe-network:
+    external: true
 
 volumes:
   dbdata:

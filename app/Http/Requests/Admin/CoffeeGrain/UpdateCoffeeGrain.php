@@ -49,7 +49,7 @@ class UpdateCoffeeGrain extends FormRequest
             'num12' => ['sometimes', 'numeric'],
             'num10_11' => ['sometimes', 'numeric'],
             'numfundo_b' => ['sometimes', 'numeric'],
-            'stock_id' => ['sometimes', 'string'],
+            'stock_id' => ['sometimes', 'integer'],
             
         ];
     }

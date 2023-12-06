@@ -9,6 +9,7 @@ use App\Http\Requests\Admin\GettingBlend\IndexGettingBlend;
 use App\Http\Requests\Admin\GettingBlend\StoreGettingBlend;
 use App\Http\Requests\Admin\GettingBlend\UpdateGettingBlend;
 use App\Models\GettingBlend;
+use App\Models\Stock;
 use Brackets\AdminListing\Facades\AdminListing;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -19,18 +20,33 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
 
 // Services
 use App\Services\GettingBlendsService;
-use Brackets\AdminAuth\Models\AdminUser;
+use App\Services\CoffeeGrainsService;
+use App\Services\StocksService;
+use App\Services\BlendDetailsService;
+use Maatwebsite\Excel\Concerns\ToArray;
 
 class GettingBlendsController extends Controller
 {
     protected $gettingBlendsService;
+    protected $coffeeGrainsService;
+    protected $stocksService;
+    protected $blendDetailsService;
 
-    public function __construct(GettingBlendsService $gettingBlendsService)
+    public function __construct(
+        GettingBlendsService $gettingBlendsService,
+        CoffeeGrainsService $coffeeGrainsService,
+        StocksService $stocksService,
+        BlendDetailsService $blendDetailsService
+    )
     {
         $this->gettingBlendsService = $gettingBlendsService;
+        $this->coffeeGrainsService = $coffeeGrainsService;
+        $this->stocksService = $stocksService;
+        $this->blendDetailsService = $blendDetailsService;
     }
 
     /**
@@ -86,8 +102,8 @@ class GettingBlendsController extends Controller
     {
         $this->authorize('admin.getting-blend.create');
 
-        $stockOptions = $this->gettingBlendsService->getAllStockOptions();
-        $blendDetailOptions = $this->gettingBlendsService->getAllBlendDetailsOptions();
+        $stockOptions = $this->stocksService->getAllStockOptions();
+        $blendDetailOptions = $this->blendDetailsService->getAllBlendDetailsOptions();
 
         $adminUserId = auth()->user()->id;
 
@@ -129,8 +145,13 @@ class GettingBlendsController extends Controller
     public function show(GettingBlend $gettingBlend)
     {
         $this->authorize('admin.getting-blend.show', $gettingBlend);
+        
+        $enabledResults = false;
 
-        // TODO your code goes here
+        return view('admin.getting-blend.show', [
+            'enabledResults' => $enabledResults,
+            'gettingBlend' => $gettingBlend,
+        ]);
     }
 
     /**
@@ -144,8 +165,8 @@ class GettingBlendsController extends Controller
     {
         $this->authorize('admin.getting-blend.edit', $gettingBlend);
 
-        $stockOptions = $this->gettingBlendsService->getAllStockOptions();
-        $blendDetailOptions = $this->gettingBlendsService->getAllBlendDetailsOptions();
+        $stockOptions = $this->stocksService->getAllStockOptions();
+        $blendDetailOptions = $this->blendDetailsService->getAllBlendDetailsOptions();
 
         return view('admin.getting-blend.edit', [
             'gettingBlend' => $gettingBlend,
@@ -219,4 +240,89 @@ class GettingBlendsController extends Controller
 
         return response(['message' => trans('brackets/admin-ui::admin.operation.succeeded')]);
     }
-}
+
+    public function showOptimeze(GettingBlend $gettingBlend)
+    {
+        $this->authorize('admin.getting-blend.show', $gettingBlend);
+
+        $type = request()->query('type');
+
+        $grainsInStock = $this->coffeeGrainsService->getAllCoffeeGrainsByStockId($gettingBlend->stock_id);
+        $blendDetail = $this->blendDetailsService->getBlendDetailsById($gettingBlend->blend_details_id);
+
+        $response = $this->gettingBlendsService->sendRequestToOptimize($grainsInStock, $blendDetail, $gettingBlend->qtd, $type);
+
+        $responseInfos = [
+            'status' => $response['status'],
+            'feasible' => $response['result']['optimizationResult']['feasible'],
+            'bounded' => $response['result']['optimizationResult']['bounded'],
+            'isIntegral' => $response['result']['optimizationResult']['isIntegral'],
+            'totalQuantityUsed' => $response['result']['totalQuantityUsed'],
+        ];
+
+        $grainsUsed = $response['result']['optimizationResult']['grainsUsed'];
+
+        $characteristicsAvg = $response['result']['characteristicsAvg'];
+
+        $enabledResults = true;
+        
+        return view('admin.getting-blend.show', [
+            'enabledResults' => $enabledResults,
+            'gettingBlend' => $gettingBlend,
+            'blendDetail' => $blendDetail,
+            'responseInfos' => $responseInfos,
+            'grainsUsed' => $grainsUsed,
+            'characteristicsAvg' => $characteristicsAvg,
+        ]);
+    }
+
+    public function makeBlend(Request $request) {
+        $gettingBlendId = $request->input('gettingBlendId');
+        $grainsUsed = json_decode($request->input('grainsUsed'), true);
+        $characteristicsAvg = $request->input('characteristicsAvg');
+        
+        $gettingBlend = GettingBlend::find($gettingBlendId);
+    
+        // Percorrer cada grão utilizado e salvar o relacionamento
+        foreach ($grainsUsed as $grain) {
+            $grainId = $grain['id'];
+            $quantity = $grain['quantity'];
+    
+            // Anexar grão com quantidade à tabela de relacionamento
+            $gettingBlend->coffeeGrains()->attach($grainId, ['quantity' => $quantity]);
+        }
+        
+        $gettingBlend->calculable_info = $characteristicsAvg;
+        $gettingBlend->finished = true;
+        $gettingBlend->save();
+
+        // // Redirecionar ou retornar uma resposta após a operação bem-sucedida
+        if ($request->ajax()) {
+            return ['redirect' => url('admin/getting-blends'), 'message' => trans('brackets/admin-ui::admin.operation.succeeded')];
+        }
+    
+        return redirect('admin/getting-blends')->with('success', 'Blend criado com sucesso');
+    }
+
+    public function viewInfos(GettingBlend $gettingBlend)
+    {
+        $gettingBlend->load('coffeeGrains');
+
+        $coffeGrainsUsed = $gettingBlend->coffeeGrains;
+        
+        $stockUsed = Stock::find($gettingBlend->stock_id);
+
+        $blendDetail = $this->blendDetailsService->getBlendDetailsById($gettingBlend->blend_details_id);
+
+        $blendCaracteristics = $gettingBlend->calculable_info;
+
+        return view('admin.getting-blend.viewInfos', [
+            'gettingBlend' => $gettingBlend,
+            'coffeGrainsUsed' => $coffeGrainsUsed,
+            'stockUsed' => $stockUsed,
+            'blendDetail' => $blendDetail,
+            'blendCaracteristics' => $blendCaracteristics,
+        ]);
+    }
+    
+}    

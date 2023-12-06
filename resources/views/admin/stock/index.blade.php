@@ -77,7 +77,16 @@
 
                                         <td>@{{ item.name }}</td>
                                         <td>@{{ item.location }}</td>
-                                        <td>@{{ item.is_active }}</td>
+                                        <td v-if="item.is_active">
+                                            <span class="text-success">
+                                               <b>Sim</b>
+                                            </span>
+                                        </td>
+                                        <td v-if="!item.is_active">
+                                            <span class="text-danger">
+                                                <b>Não</b>
+                                            </span>
+                                        </td>
                                         
                                         <td>
                                             <div class="row no-gutters">

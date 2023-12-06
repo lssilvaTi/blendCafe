@@ -49,14 +49,9 @@
                                             </label>
                                         </th>
 
-                                        <th is='sortable' :column="'id'">{{ trans('admin.coffee-grain.columns.id') }}</th>
-                                        <th is='sortable' :column="'lote'">{{ trans('admin.coffee-grain.columns.lote') }}</th>
-                                        <th is='sortable' :column="'slip'">{{ trans('admin.coffee-grain.columns.slip') }}</th>
-                                        <th is='sortable' :column="'qtd'">{{ trans('admin.coffee-grain.columns.qtd') }}</th>
-                                        <th is='sortable' :column="'safra'">{{ trans('admin.coffee-grain.columns.safra') }}</th>
-                                        <th is='sortable' :column="'bebida'">{{ trans('admin.coffee-grain.columns.bebida') }}</th>
-                                        <th is='sortable' :column="'cheiro'">{{ trans('admin.coffee-grain.columns.cheiro') }}</th>
-                                        <th is='sortable' :column="'aspecto'">{{ trans('admin.coffee-grain.columns.aspecto') }}</th>
+                                        <th is='sortable' :column="'lote'">Lote</th>
+                                        <th is='sortable' :column="'safra'">Safra</th>
+                                        <th is='sortable' :column="'qtd'" class="text-right">Quantidade disponível</th>
 
                                         <th></th>
                                     </tr>
@@ -80,15 +75,10 @@
                                             </label>
                                         </td>
 
-                                        <td>@{{ item.id }}</td>
                                         <td>@{{ item.lote }}</td>
-                                        <td>@{{ item.slip }}</td>
-                                        <td>@{{ item.qtd }}</td>
                                         <td>@{{ item.safra }}</td>
-                                        <td>@{{ item.bebida }}</td>
-                                        <td>@{{ item.cheiro }}</td>
-                                        <td>@{{ item.aspecto }}</td>
-                                        
+                                        <td class="text-right">@{{ item.qtd }}</td>
+                      
                                         <td>
                                             <div class="row no-gutters">
                                                 <div class="col-auto">

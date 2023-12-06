@@ -13,7 +13,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> {{ trans('admin.getting-blend.actions.index') }}
+                        <i class="fa fa-align-justify"></i> Geração de Blends
                         <a class="btn btn-primary btn-spinner btn-sm pull-right m-b-0" href="{{ url('admin/getting-blends/create') }}" role="button"><i class="fa fa-plus"></i>&nbsp; {{ trans('admin.getting-blend.actions.create') }}</a>
                     </div>
                     <div class="card-body" v-cloak>
@@ -54,8 +54,8 @@
                                         <th>Responsável</th>
                                         <th>Estoque Utilizado</th>
                                         <th>Blend</th>
-                                        <th is='sortable' :column="'qtd'">{{ trans('admin.getting-blend.columns.qtd') }}</th>
-                                        <th is='sortable' :column="'finished'">{{ trans('admin.getting-blend.columns.finished') }}</th>
+                                        <th is='sortable' :column="'qtd'">Quantidade de sacas</th>
+                                        <th is='sortable' :column="'finished'">Gerado</th>
 
                                         <th></th>
                                     </tr>
@@ -98,6 +98,12 @@
                                         
                                         <td>
                                             <div class="row no-gutters">
+                                                <div v-if="item.finished" class="col-auto">
+                                                    <a class="btn btn-sm btn-spinner btn-primary" :href="item.resource_url + '/viewInfos'" title="{{ trans('brackets/admin-ui::admin.btn.edit') }}" role="button">Blend Obtido</a>
+                                                </div>
+                                                <div v-if="!item.finished" class="col-auto">
+                                                    <a class="btn btn-sm btn-spinner btn-primary" :href="item.resource_url + '/show'" title="{{ trans('brackets/admin-ui::admin.btn.edit') }}" role="button">Obter Blend</a>
+                                                </div>
                                                 <div class="col-auto">
                                                     <a class="btn btn-sm btn-spinner btn-info" :href="item.resource_url + '/edit'" title="{{ trans('brackets/admin-ui::admin.btn.edit') }}" role="button"><i class="fa fa-edit"></i></a>
                                                 </div>
